@@ -46,4 +46,5 @@ def logout():
     if "email" in session:
         session.clear()
         return redirect(url_for("home"))
+
         
