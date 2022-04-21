@@ -47,4 +47,12 @@ def logout():
         session.clear()
         return redirect(url_for("home"))
 
-        
+
+@app.route('/homepage')
+def homepage():
+    return render_template('HomePage.html')
+
+
+@app.route('/create_form')
+def create_form():
+    return render_template('CreateForm.html')
