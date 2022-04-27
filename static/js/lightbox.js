@@ -36,3 +36,5 @@ contenedorlight.addEventListener("click", (e) => {
     hamburger1.style.opacity = "1";
   }
 });
+
+
