@@ -31,6 +31,17 @@ cuentas = db.alumno
 #TwilioClient = Client(account_sid, auth_token)
 #############################################################
 
+def informacion(email):
+    users=[]
+    user = cuentas.find_one({"correo": (email)})
+    nombre = user["nombre"]
+    matricula= user["matricula"]
+    users = []
+    users.append(nombre)
+    users.append(matricula)
+    users.append(email)
+    return users
+
 
 @app.route('/')
 def home():
@@ -47,7 +58,6 @@ def home():
         return render_template('index.html', data=users)
     else:
         return render_template('login.html')
-
     
     
 @app.route("/login", methods=["GET", "POST"])
@@ -148,13 +158,13 @@ def insertUsers():
              
         try:
             cuentas.insert_one(user)
-            email=user["correo"]
+            correo=user["correo"]
             nombre= user["nombre"]
             matricula= user["matricula"]
             users = []
             users.append(nombre)
             users.append(matricula)
-            users.append(email)
+            users.append(correo)
             #comogusten = TwilioClient.messages.create(
                 #from_="whatsapp:+14155238886",
                 #body="El usuario %s se agregó a tu pagina web" % (
@@ -162,6 +172,7 @@ def insertUsers():
                 #to="whatsapp:+5215514200581"
             #)
             #print(comogusten.sid)
+            session["email"]=correo
             return render_template('index.html', data=users)
         except Exception as e:
             return "<p>El servicio no esta disponible =>: %s %s" % type(e), e
