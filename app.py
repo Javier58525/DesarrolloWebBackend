@@ -5,7 +5,7 @@ import datetime
 import pymongo
 from sqlalchemy import null
 import pyautogui as pag
-import pymsgbox
+from twilio.rest import Client
 
 
 # FlASK
@@ -26,9 +26,9 @@ cuentas = db.alumno
 
 # Twilio
 #############################################################
-#account_sid = ""
-#auth_token = ""
-#TwilioClient = Client(account_sid, auth_token)
+account_sid = ""
+auth_token = ""
+TwilioClient = Client(account_sid, auth_token)
 #############################################################
 
 def informacion(email):
@@ -165,6 +165,12 @@ def insertUsers():
             users.append(nombre)
             users.append(matricula)
             users.append(correo)
+            comogusten = TwilioClient.messages.create(
+            from_="whatsapp:+14155238886",
+            body="El usuario %s se agregó a tu pagina web" % (
+            request.form["nombre"]),
+            to="whatsapp:+5215583678141")
+            print(comogusten.sid)
             #comogusten = TwilioClient.messages.create(
                 #from_="whatsapp:+14155238886",
                 #body="El usuario %s se agregó a tu pagina web" % (
